@@ -1,6 +1,5 @@
-// Supabase project reference from your dashboard: siezoxfjtbyopzryoqrx
-// Standard project URL; confirm in Supabase > Project Settings > API.
+// MUNMUN CLINIC • Public Supabase browser configuration.
+// Publishable keys may be included in client apps only when RLS policies are correctly enforced.
+// Never put service_role keys, sb_secret keys, database passwords or access tokens in this file.
 export const SUPABASE_URL = 'https://siezoxfjtbyopzryoqrx.supabase.co';
-// Replace only this public publishable / anon key using the Supabase dashboard.
-// NEVER place service_role, secret keys, tokens or database passwords here.
-export const SUPABASE_PUBLISHABLE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_KEY';
+export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_ygaYC8kDz9C5y9Rdguq2IQ_HrBHvepN';
