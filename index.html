@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#611e32">
+  <meta name="robots" content="noindex,nofollow">
+  <title>MUNMUN CLINIC • Management</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="setup" class="setup-screen hidden">
+    <div class="auth-card"><div class="brand-mark">m<span>m</span></div>
+      <h1>ตั้งค่าระบบ MUNMUN</h1><p>ระบบยังไม่ได้เชื่อมต่อ Supabase โปรดอ่าน README และกำหนด URL / publishable key ใน <code>config.js</code></p>
+      <a href="https://github.com/copyggolf/mummun/blob/main/README.md" target="_blank" rel="noopener">ดูวิธีตั้งค่า →</a>
+    </div>
+  </div>
+  <div id="auth" class="auth-screen hidden">
+    <div class="auth-card">
+      <div class="brand-mark">m<span>m</span></div><div class="brand-name">munmun <small>CLINIC</small></div>
+      <p class="muted center">CLINIC MANAGEMENT SYSTEM</p>
+      <h1>เข้าสู่ระบบ</h1>
+      <form id="login-form">
+        <label>อีเมล<input type="email" name="email" autocomplete="username" required placeholder="name@clinic.com"></label>
+        <label>รหัสผ่าน<input type="password" name="password" autocomplete="current-password" required minlength="6" placeholder="••••••••"></label>
+        <button type="submit" class="primary full">เข้าสู่ระบบ</button>
+      </form>
+      <p class="small muted center">สำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น</p>
+    </div>
+  </div>
+  <div id="app" class="shell hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-brand"><div class="brand-mark small-mark">m<span>m</span></div><div><strong>munmun</strong><small>CLINIC MANAGEMENT</small></div></div>
+      <nav class="nav" aria-label="เมนูหลัก">
+        <button data-page="dashboard" class="active">◫ <span>ภาพรวม</span></button>
+        <button data-page="clients">♙ <span>ข้อมูลลูกค้า</span></button>
+        <button data-page="appointments">▦ <span>การนัดหมาย</span></button>
+        <button data-page="staff" id="staff-nav" class="hidden">♧ <span>พนักงานและสิทธิ์</span></button>
+      </nav>
+      <div class="side-bottom"><div id="side-username">—</div><small id="side-role">—</small><button id="logout" class="ghost">ออกจากระบบ ↗</button></div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar">
+        <button class="menu-btn" id="menu-toggle" aria-label="เปิดเมนู">☰</button>
+        <div><div class="eyebrow">MUNMUN CLINIC</div><strong id="page-title">ภาพรวมคลินิก</strong></div>
+        <div class="top-right"><span id="today"></span><span class="avatar" id="avatar">M</span></div>
+      </header>
+      <main class="content">
+        <div id="alert" role="status" aria-live="polite" class="alert hidden"></div>
+        <section id="page-dashboard" class="page">
+          <div class="heading"><div><h1>ภาพรวมคลินิก</h1><p class="muted">ข้อมูลสรุปจากระบบฐานข้อมูลจริง</p></div><button class="secondary" id="refresh-dashboard">↻ รีเฟรช</button></div>
+          <div class="stats"><article class="stat"><div>ลูกค้าทั้งหมด</div><strong id="stat-clients">—</strong><small>รายชื่อที่มีสิทธิ์เข้าถึง</small></article><article class="stat"><div>นัดหมายทั้งหมด</div><strong id="stat-appointments">—</strong><small>รายการที่มีสิทธิ์เข้าถึง</small></article><article class="stat"><div>นัดหมายวันนี้</div><strong id="stat-today">—</strong><small>ตามเวลาประเทศไทย</small></article><article class="stat"><div>รอดำเนินการ</div><strong id="stat-pending">—</strong><small>นัดหมายที่ยังไม่เสร็จสิ้น</small></article></div>
+          <div class="panel"><div class="panel-head"><h2>นัดหมายใกล้ถึง</h2><button class="text-btn" data-goto="appointments">ดูทั้งหมด →</button></div><div id="upcoming"></div></div>
+        </section>
+        <section id="page-clients" class="page hidden">
+          <div class="heading"><div><h1>ข้อมูลลูกค้า</h1><p class="muted">จัดเก็บข้อมูลติดต่อขั้นต่ำในเวอร์ชันเริ่มต้น</p></div><button id="add-client" class="primary">+ เพิ่มลูกค้า</button></div>
+          <div class="panel"><div class="filters"><input id="search-clients" type="search" placeholder="ค้นหาชื่อหรือเบอร์โทร" aria-label="ค้นหาลูกค้า"><button id="reload-clients" class="secondary">รีเฟรช</button></div><div class="table-wrap"><table><thead><tr><th>ชื่อลูกค้า</th><th>โทรศัพท์</th><th>วันที่เพิ่ม</th><th></th></tr></thead><tbody id="clients-table"></tbody></table></div><div id="clients-empty" class="empty hidden">ยังไม่มีข้อมูลลูกค้า</div></div>
+        </section>
+        <section id="page-appointments" class="page hidden">
+          <div class="heading"><div><h1>การนัดหมาย</h1><p class="muted">บันทึกคิวและสถานะแบบเรียลไทม์เมื่อรีเฟรช</p></div><button id="add-appointment" class="primary">+ เพิ่มนัดหมาย</button></div>
+          <div class="panel"><div class="filters"><input type="date" id="date-filter" aria-label="กรองวันที่"><select id="status-filter" aria-label="กรองสถานะ"><option value="">ทุกสถานะ</option><option value="scheduled">รอนัดหมาย</option><option value="completed">เสร็จแล้ว</option><option value="cancelled">ยกเลิก</option></select><button id="clear-filters" class="secondary">ล้างตัวกรอง</button><button id="reload-appointments" class="secondary">รีเฟรช</button></div><div class="table-wrap"><table><thead><tr><th>วันและเวลา</th><th>ลูกค้า</th><th>บริการ</th><th>แพทย์</th><th>สถานะ</th><th></th></tr></thead><tbody id="appointments-table"></tbody></table></div><div id="appointments-empty" class="empty hidden">ยังไม่มีรายการนัดหมาย</div></div>
+        </section>
+        <section id="page-staff" class="page hidden">
+          <div class="heading"><div><h1>พนักงานและสิทธิ์</h1><p class="muted">สร้างบัญชีใน Supabase Auth ก่อน แล้วผู้ดูแลจึงกำหนดสิทธิ์ตาม README</p></div></div>
+          <div class="panel"><div class="table-wrap"><table><thead><tr><th>ชื่อ</th><th>บทบาท</th><th>สถานะ</th></tr></thead><tbody id="staff-table"></tbody></table></div></div>
+        </section>
+      </main>
+      <footer class="footer">MUNMUN CLINIC • Internal use only • Phase 1</footer>
+    </div>
+  </div>
+  <dialog id="editor"><form id="editor-form"><div class="modal-head"><h2 id="editor-title">เพิ่มข้อมูล</h2><button type="button" id="close-editor" class="ghost">✕</button></div><div id="editor-fields"></div><div class="modal-actions"><button type="button" class="secondary" id="cancel-editor">ยกเลิก</button><button type="submit" class="primary" id="save-editor">บันทึก</button></div></form></dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
